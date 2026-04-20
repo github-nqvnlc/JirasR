@@ -75,6 +75,66 @@
 - Write CSS and JavaScript per components using the `{% stylesheet %}` and `{% javascript %}` tags
 - Note: `{% stylesheet %}` and `{% javascript %}` are only supported in `snippets/`, `blocks/`, and `sections/`
 
+### Tailwind CSS v4
+
+This theme uses **Tailwind CSS v4** with **Vite** as the build tool.
+
+#### Setup
+
+```bash
+npm install
+```
+
+#### Development
+
+```bash
+npm run dev
+```
+
+#### Production Build
+
+```bash
+npm run build
+```
+
+#### File structure
+
+```
+.
+├── index.html               # Vite entry point
+├── src/
+│   └── styles/
+│       └── main.css        # Tailwind entry point
+├── assets/
+│   ├── critical.css        # Essential CSS (optional)
+│   └── tailwind.css        # Compiled output
+├── vite.config.js
+└── package.json
+```
+
+#### Usage
+
+Add Tailwind utility classes directly in Liquid templates:
+
+```liquid
+<div class="flex items-center justify-between p-4 bg-white">
+  <h1 class="text-2xl font-bold">{{ section.settings.title }}</h1>
+</div>
+```
+
+#### Customizing Tailwind
+
+Edit `src/styles/main.css` to add custom utilities:
+
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #6366f1;
+  --font-family-sans: var(--font-primary--family), sans-serif;
+}
+```
+
 ### LiquidDoc
 
 Snippets and blocks (when blocks are statically rendered) must include the LiquidDoc header that documents the purpose of the file and required parameters. Example:

@@ -9,6 +9,11 @@ ehthumbs.db
 Thumbs.db
 node_modules/
 
+# Vite build artifacts
+.vite/
+dist/
+index.html
+
 # Shopify CLI files
 .shopify/
 

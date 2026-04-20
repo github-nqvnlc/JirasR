@@ -17,8 +17,11 @@
       {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
     {% endunless %}
 
-    {% # Load and preload the critical CSS %}
-    {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+    {% # Load compiled Tailwind CSS %}
+    {% comment %} {{ 'tailwind.css' | asset_url | stylesheet_tag }} {% endcomment %}
+    {% assign tailwind_css = 'assets/tailwind.css' | file_url %}
+
+    <link rel="stylesheet" href="{{ tailwind_css }}">
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
