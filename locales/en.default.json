@@ -1,4 +1,62 @@
 {
+  "general": {
+    "hero_banner": "Hero Banner"
+  },
+  "headers": {
+    "media": "Media",
+    "content": "Content",
+    "buttons": "Buttons",
+    "layout": "Layout"
+  },
+  "labels": {
+    "image": "Image",
+    "video": "Video",
+    "overlay_opacity": "Overlay Opacity",
+    "badge_text": "Badge Text",
+    "headline": "Headline",
+    "subheadline": "Subheadline",
+    "primary_button_text": "Primary Button Text",
+    "primary_button_url": "Primary Button URL",
+    "secondary_button_text": "Secondary Button Text",
+    "secondary_button_url": "Secondary Button URL",
+    "height": "Banner Height",
+    "text_alignment": "Text Alignment",
+    "content_vertical_align": "Content Position",
+    "menu": "Menu",
+    "customer_account_menu": "Customer Account Menu",
+    "header": "Header",
+    "footer": "Footer",
+    "text": "Text",
+    "text_style": "Text Style",
+    "alignment": "Alignment",
+    "background": "Background"
+  },
+  "options": {
+    "height": {
+      "small": "Small (384px)",
+      "medium": "Medium (Full Height)",
+      "large": "Large (Min Height)"
+    },
+    "alignment": {
+      "left": "Left",
+      "center": "Center",
+      "right": "Right",
+      "top": "Top",
+      "bottom": "Bottom"
+    },
+    "text_style": {
+      "title": "Title",
+      "subtitle": "Subtitle",
+      "normal": "Normal"
+    },
+    "direction": {
+      "horizontal": "Horizontal",
+      "vertical": "Vertical"
+    }
+  },
+  "infos": {
+    "optional": "Optional"
+  },
   "404": {
     "title": "404",
     "not_found": "Page not found.",

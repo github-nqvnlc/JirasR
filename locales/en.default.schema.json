@@ -17,6 +17,7 @@
     "footer": "Footer",
     "group": "Group",
     "header": "Header",
+    "hero_banner": "Hero Banner",
     "layout": "Layout",
     "main": "Main",
     "page": "Page",
@@ -33,6 +34,12 @@
     "theme": "Theme",
     "typography": "Typography"
   },
+  "headers": {
+    "media": "Media",
+    "content": "Content",
+    "buttons": "Buttons",
+    "layout": "Layout"
+  },
   "labels": {
     "alignment": "Alignment",
     "background": "Background",
@@ -48,13 +55,31 @@
     "page_width": "Page width",
     "show_payment_icons": "Show payment icons",
     "text_style": "Text style",
-    "text": "Text"
+    "text": "Text",
+    "image": "Image",
+    "video": "Video",
+    "overlay_opacity": "Overlay Opacity",
+    "badge_text": "Badge Text",
+    "headline": "Headline",
+    "subheadline": "Subheadline",
+    "primary_button_text": "Primary Button Text",
+    "primary_button_url": "Primary Button URL",
+    "secondary_button_text": "Secondary Button Text",
+    "secondary_button_url": "Secondary Button URL",
+    "height": "Banner Height",
+    "text_alignment": "Text Alignment",
+    "content_vertical_align": "Content Position"
+  },
+  "infos": {
+    "optional": "Optional"
   },
   "options": {
     "alignment": {
       "left": "Left",
       "center": "Center",
-      "right": "Right"
+      "right": "Right",
+      "top": "Top",
+      "bottom": "Bottom"
     },
     "direction": {
       "horizontal": "Horizontal",
@@ -73,5 +98,10 @@
       "subtitle": "Subtitle",
       "normal": "Normal text"
     },
+    "height": {
+      "small": "Small (384px)",
+      "medium": "Medium (Full Height)",
+      "large": "Large (Min Height)"
+    }
   }
 }

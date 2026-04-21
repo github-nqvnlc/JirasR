@@ -1,0 +1,176 @@
+{% comment %}
+  Hero Banner Section - Supports image or video background with customizable content
+{% endcomment %}
+
+<section class="relative w-full overflow-hidden {{ section.settings.height }}" style="--banner-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }}">
+  {% if section.settings.video %}
+    <video
+      class="absolute inset-0 w-full h-full object-cover"
+      src="{{ section.settings.video.sources[0].url }}"
+      autoplay
+      muted
+      loop
+      playsinline
+    ></video>
+  {% elsif section.settings.image %}
+    {{ section.settings.image | image_url: width: 1920 | image_tag: class: 'absolute inset-0 w-full h-full object-cover', alt: section.settings.headline }}
+  {% else %}
+    <div class="absolute inset-0 w-full h-full bg-muted"></div>
+  {% endif %}
+
+  <div class="absolute inset-0 bg-foreground/20"></div>
+
+  <div class="relative z-10 container mx-auto px-4 h-full flex {{ section.settings.text_alignment }}">
+    <div class="max-w-2xl {{ section.settings.content_vertical_align }} py-12">
+      {% if section.settings.badge_text != blank %}
+        <span class="inline-block px-3 py-1 mb-4 text-xs font-medium tracking-wider uppercase bg-primary text-primary-foreground rounded-full">
+          {{ section.settings.badge_text }}
+        </span>
+      {% endif %}
+
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-background leading-tight">
+        {{ section.settings.headline | default: 'Welcome to our store' }}
+      </h1>
+
+      {% if section.settings.subheadline != blank %}
+        <p class="mt-4 text-lg md:text-xl text-background/90 leading-relaxed">
+          {{ section.settings.subheadline }}
+        </p>
+      {% endif %}
+
+      <div class="mt-8 flex flex-wrap gap-4">
+        {% if section.settings.primary_button_text != blank %}
+          <a href="{{ section.settings.primary_button_url }}" class="inline-flex items-center justify-center gap-2 h-11 px-8 rounded-md bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-colors">
+            {{ section.settings.primary_button_text }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_button_text != blank %}
+          <a href="{{ section.settings.secondary_button_url }}" class="inline-flex items-center justify-center gap-2 h-11 px-8 rounded-md border-2 border-background text-background font-medium hover:bg-background hover:text-foreground transition-colors">
+            {{ section.settings.secondary_button_text }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:general.hero_banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:headers.media"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "t:labels.image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "t:labels.video"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "t:labels.overlay_opacity",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "t:headers.content"
+    },
+    {
+      "type": "text",
+      "id": "badge_text",
+      "label": "t:labels.badge_text",
+      "info": "t:infos.optional"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "t:labels.headline",
+      "default": "Welcome to our store"
+    },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "t:labels.subheadline",
+      "info": "t:infos.optional"
+    },
+    {
+      "type": "header",
+      "content": "t:headers.buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_text",
+      "label": "t:labels.primary_button_text"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_url",
+      "label": "t:labels.primary_button_url"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_text",
+      "label": "t:labels.secondary_button_text",
+      "info": "t:infos.optional"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_url",
+      "label": "t:labels.secondary_button_url"
+    },
+    {
+      "type": "header",
+      "content": "t:headers.layout"
+    },
+    {
+      "type": "select",
+      "id": "height",
+      "label": "t:labels.height",
+      "options": [
+        { "value": "h-96", "label": "t:options.height.small" },
+        { "value": "h-screen", "label": "t:options.height.medium" },
+        { "value": "min-h-screen", "label": "t:options.height.large" }
+      ],
+      "default": "h-screen"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "t:labels.text_alignment",
+      "options": [
+        { "value": "items-start text-left", "label": "t:options.alignment.left" },
+        { "value": "items-center text-center", "label": "t:options.alignment.center" },
+        { "value": "items-end text-right", "label": "t:options.alignment.right" }
+      ],
+      "default": "items-center text-center"
+    },
+    {
+      "type": "select",
+      "id": "content_vertical_align",
+      "label": "t:labels.content_vertical_align",
+      "options": [
+        { "value": "my-auto", "label": "t:options.alignment.top" },
+        { "value": "my-auto mx-auto text-center", "label": "t:options.alignment.center" },
+        { "value": "mt-auto mb-12", "label": "t:options.alignment.bottom" }
+      ],
+      "default": "my-auto"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:general.hero_banner"
+    }
+  ]
+}
+{% endschema %}
