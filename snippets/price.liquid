@@ -1,0 +1,79 @@
+{% doc %}
+  Renders a sale price block for a product or variant.
+
+  @param {product} [product] - Product object for money formatting and fallback variant
+  @param {variant} [variant] - Variant object to render
+  @param {boolean} [show_compare] - Whether to show compare-at pricing
+  @param {boolean} [show_badge] - Whether to show the savings badge
+  @param {string} [class] - Additional class names
+{% enddoc %}
+
+{% liquid
+  assign price_product = product
+  assign price_variant = variant
+
+  unless price_variant
+    if price_product
+      assign price_variant = price_product.selected_or_first_available_variant
+    endif
+  endunless
+
+  assign compare_price = blank
+  assign savings_percentage = 0
+  assign should_show_compare = false
+  assign should_show_badge = false
+
+  if price_variant
+    assign compare_price = price_variant.compare_at_price
+
+    if compare_price
+      if compare_price > price_variant.price
+        assign savings_percentage = compare_price | minus: price_variant.price | times: 100.0 | divided_by: compare_price | round
+      endif
+    endif
+  endif
+
+  if show_compare
+    if compare_price
+      if compare_price > price_variant.price
+        assign should_show_compare = true
+      endif
+    endif
+  endif
+
+  if show_badge
+    if savings_percentage > 0
+      assign should_show_badge = true
+    endif
+  endif
+%}
+
+<div class="tiktok-money {{ class }}" data-product-price-root>
+  <span class="tiktok-money__sale" data-product-price>
+    {% if price_variant %}
+      {{ price_variant.price | money }}
+    {% endif %}
+  </span>
+
+  <span
+    class="tiktok-money__compare"
+    data-product-compare
+    {% unless should_show_compare %}
+      hidden
+    {% endunless %}
+  >
+    {% if compare_price %}
+      {{ compare_price | money }}
+    {% endif %}
+  </span>
+
+  <span
+    class="tiktok-money__badge"
+    data-product-badge
+    {% unless should_show_badge %}
+      hidden
+    {% endunless %}
+  >
+    Save {{ savings_percentage }}%
+  </span>
+</div>

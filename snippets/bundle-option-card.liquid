@@ -1,0 +1,115 @@
+{% doc %}
+  Renders a selectable bundle option card mapped to a variant ID.
+
+  @param {string} section_id - Parent section ID
+  @param {string} block_id - Block ID
+  @param {string} title - Option title
+  @param {string} [subtitle] - Optional subtitle
+  @param {string} [price] - Price text
+  @param {string} [compare_price] - Compare-at text
+  @param {string} [badge] - Optional badge
+  @param {string} [shipping_note] - Optional shipping note
+  @param {string} [variant_id] - Variant ID to sync
+  @param {boolean} [checked] - Whether the option starts selected
+{% enddoc %}
+
+<label class="tiktok-bundle-card tiktok-card{% if checked %} is-selected{% endif %}" for="BundleOption-{{ section_id }}-{{ block_id }}" data-bundle-option>
+  <input
+    id="BundleOption-{{ section_id }}-{{ block_id }}"
+    class="tiktok-bundle-card__radio"
+    type="radio"
+    name="bundle-option-{{ section_id }}"
+    value="{{ variant_id }}"
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+
+  <div class="tiktok-bundle-card__main">
+    <div class="tiktok-bundle-card__copy">
+      <strong>{{ title }}</strong>
+      {% if subtitle != blank %}
+        <span>{{ subtitle }}</span>
+      {% endif %}
+    </div>
+
+    <div class="tiktok-bundle-card__price">
+      {% if price != blank %}
+        <strong>{{ price }}</strong>
+      {% endif %}
+      {% if compare_price != blank %}
+        <span>{{ compare_price }}</span>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if badge != blank or shipping_note != blank %}
+    <div class="tiktok-bundle-card__meta">
+      {% if badge != blank %}
+        <span class="tiktok-badge">{{ badge }}</span>
+      {% endif %}
+      {% if shipping_note != blank %}
+        <small>{{ shipping_note }}</small>
+      {% endif %}
+    </div>
+  {% endif %}
+</label>
+
+{% stylesheet %}
+  .tiktok-bundle-card {
+    display: grid;
+    gap: 0.85rem;
+    padding: 1rem;
+    cursor: pointer;
+    transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  }
+
+  .tiktok-bundle-card:hover {
+    transform: translateY(-1px);
+  }
+
+  .tiktok-bundle-card.is-selected {
+    border-color: var(--color-tiktok-accent);
+    box-shadow: 0 16px 34px rgba(255, 92, 56, 0.18);
+  }
+
+  .tiktok-bundle-card__radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .tiktok-bundle-card__main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .tiktok-bundle-card__copy,
+  .tiktok-bundle-card__price {
+    display: grid;
+    gap: 0.25rem;
+  }
+
+  .tiktok-bundle-card__copy span,
+  .tiktok-bundle-card__meta small,
+  .tiktok-bundle-card__price span {
+    color: color-mix(in srgb, var(--color-foreground) 65%, white);
+  }
+
+  .tiktok-bundle-card__price {
+    text-align: right;
+  }
+
+  .tiktok-bundle-card__price span {
+    text-decoration: line-through;
+  }
+
+  .tiktok-bundle-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    align-items: center;
+  }
+{% endstylesheet %}

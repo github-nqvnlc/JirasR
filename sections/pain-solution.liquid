@@ -1,0 +1,269 @@
+<section class="tiktok-section pain-solution">
+  <div class="tiktok-shell">
+    {% if section.settings.eyebrow != blank or section.settings.heading != blank %}
+      {% render 'section-heading', eyebrow: section.settings.eyebrow, heading: section.settings.heading, subheading: section.settings.heading_subcopy, alignment: 'left' %}
+    {% endif %}
+
+    <div class="pain-solution__grid">
+      {% if section.settings.show_pain_grid %}
+        <div class="pain-solution__pain-grid">
+          {% for block in section.blocks %}
+            {% if block.type == 'pain_item' %}
+              <article class="pain-solution__pain-card tiktok-card">
+                {% render 'icon', name: block.settings.icon, size: 16 %}
+                <span>{{ block.settings.text }}</span>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div class="pain-solution__solution">
+        {% if section.settings.solution_heading != blank %}
+          <h3 class="pain-solution__solution-title">{{ section.settings.solution_heading }}</h3>
+        {% endif %}
+
+        {% if section.settings.show_media %}
+          <div class="pain-solution__media tiktok-card">
+            {% if section.settings.media_type == 'video' %}
+              {% if section.settings.video %}
+                {{ section.settings.video | video_tag: image_size: '1200x', controls: true, playsinline: true, preload: 'metadata' }}
+              {% endif %}
+            {% else %}
+              {% if section.settings.image %}
+                {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '540, 720, 960, 1200', sizes: '(min-width: 990px) 45vw, 100vw' }}
+              {% endif %}
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if section.settings.show_benefits %}
+          <div class="pain-solution__benefits">
+            {% for block in section.blocks %}
+              {% if block.type == 'benefit_item' %}
+                {% render 'trust-bullet', icon: block.settings.icon, text: block.settings.text %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .pain-solution__grid {
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .pain-solution__pain-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
+
+  .pain-solution__pain-card {
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    color: #991b1b;
+    background: linear-gradient(180deg, rgba(254, 242, 242, 0.96), rgba(255, 255, 255, 0.98));
+  }
+
+  .pain-solution__solution-title {
+    margin: 0 0 1rem;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    letter-spacing: -0.03em;
+  }
+
+  .pain-solution__media {
+    overflow: hidden;
+  }
+
+  .pain-solution__media img,
+  .pain-solution__media video {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+
+  .pain-solution__benefits {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    .pain-solution__grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+      align-items: start;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Pain Solution",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Problem to solution"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tired of scrubbing for hours?"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_subcopy",
+      "label": "Heading subcopy",
+      "default": "Lead with the pain first so the product feels like obvious relief."
+    },
+    {
+      "type": "text",
+      "id": "solution_heading",
+      "label": "Solution heading",
+      "default": "Meet the easier way"
+    },
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "Media type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media",
+      "label": "Show media",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_pain_grid",
+      "label": "Show pain grid",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_benefits",
+      "label": "Show benefits",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pain_item",
+      "name": "Pain item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "cross",
+              "label": "Cross"
+            },
+            {
+              "value": "clock",
+              "label": "Clock"
+            },
+            {
+              "value": "brush",
+              "label": "Brush"
+            }
+          ],
+          "default": "cross"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Hard work"
+        }
+      ]
+    },
+    {
+      "type": "benefit_item",
+      "name": "Benefit item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "check",
+              "label": "Check"
+            },
+            {
+              "value": "spark",
+              "label": "Spark"
+            },
+            {
+              "value": "brush",
+              "label": "Brush"
+            }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Reaches tight corners"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Pain Solution",
+      "blocks": [
+        {
+          "type": "pain_item"
+        },
+        {
+          "type": "pain_item"
+        },
+        {
+          "type": "benefit_item"
+        },
+        {
+          "type": "benefit_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

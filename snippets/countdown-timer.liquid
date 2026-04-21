@@ -1,0 +1,153 @@
+{% doc %}
+  Renders a countdown timer with expiry behavior messaging.
+
+  @param {string} section_id - Parent section ID
+  @param {string} [heading] - Optional heading text
+  @param {string} [end_datetime] - ISO-like end date string
+  @param {string} [expiry_behavior] - hide, show_message, restart_daily
+  @param {string} [expiry_message] - Message after expiry
+  @param {string} [shipping_note] - Supporting text
+  @param {boolean} [show_timer] - Whether to show the timer
+{% enddoc %}
+
+<div
+  class="tiktok-countdown tiktok-card"
+  data-countdown
+  data-end-datetime="{{ end_datetime }}"
+  data-expiry-behavior="{{ expiry_behavior | default: 'show_message' }}"
+  data-expiry-message="{{ expiry_message | escape }}"
+>
+  {% if heading != blank %}
+    <h3 class="tiktok-countdown__heading">{{ heading }}</h3>
+  {% endif %}
+
+  {% if show_timer %}
+    <div class="tiktok-countdown__digits" aria-live="polite">
+      <div><span data-countdown-hours>00</span><small>HH</small></div>
+      <div><span data-countdown-minutes>00</span><small>MM</small></div>
+      <div><span data-countdown-seconds>00</span><small>SS</small></div>
+    </div>
+  {% endif %}
+
+  <p class="tiktok-countdown__message" data-countdown-message>
+    {% if shipping_note != blank %}
+      {{ shipping_note }}
+    {% else %}
+      Order today to lock in the current deal.
+    {% endif %}
+  </p>
+</div>
+
+{% stylesheet %}
+  .tiktok-countdown {
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .tiktok-countdown__heading,
+  .tiktok-countdown__message {
+    margin: 0;
+  }
+
+  .tiktok-countdown__digits {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .tiktok-countdown__digits > div {
+    min-width: 4.6rem;
+    padding: 0.85rem 0.75rem;
+    border-radius: 1rem;
+    background: var(--color-tiktok-surface);
+  }
+
+  .tiktok-countdown__digits span {
+    display: block;
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.05em;
+  }
+
+  .tiktok-countdown__digits small {
+    display: block;
+    margin-top: 0.25rem;
+    color: color-mix(in srgb, var(--color-foreground) 68%, white);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+  }
+
+  .tiktok-countdown__message {
+    color: color-mix(in srgb, var(--color-foreground) 75%, white);
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const timers = document.querySelectorAll('[data-countdown]');
+
+    const getDailyTarget = () => {
+      const now = new Date();
+      const target = new Date(now);
+      target.setHours(23, 59, 59, 999);
+      return target;
+    };
+
+    timers.forEach((timer) => {
+      const hoursNode = timer.querySelector('[data-countdown-hours]');
+      const minutesNode = timer.querySelector('[data-countdown-minutes]');
+      const secondsNode = timer.querySelector('[data-countdown-seconds]');
+      const messageNode = timer.querySelector('[data-countdown-message]');
+      const expiryBehavior = timer.dataset.expiryBehavior || 'show_message';
+      const expiryMessage = timer.dataset.expiryMessage || 'This offer has ended.';
+      const endValue = timer.dataset.endDatetime;
+      let target = endValue ? new Date(endValue) : null;
+
+      if (expiryBehavior === 'restart_daily') {
+        target = getDailyTarget();
+      }
+
+      if (!(target instanceof Date) || Number.isNaN(target.getTime())) {
+        if (timer.querySelector('.tiktok-countdown__digits')) {
+          timer.querySelector('.tiktok-countdown__digits').hidden = true;
+        }
+        return;
+      }
+
+      const update = () => {
+        const now = new Date();
+        let diff = target.getTime() - now.getTime();
+
+        if (diff <= 0) {
+          if (expiryBehavior === 'restart_daily') {
+            target = getDailyTarget();
+            diff = target.getTime() - now.getTime();
+          } else {
+            if (expiryBehavior === 'hide') {
+              timer.hidden = true;
+              return;
+            }
+
+            if (messageNode) {
+              messageNode.textContent = expiryMessage;
+            }
+
+            diff = 0;
+          }
+        }
+
+        const hours = Math.floor(diff / 3600000);
+        const minutes = Math.floor((diff % 3600000) / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+
+        if (hoursNode) hoursNode.textContent = String(hours).padStart(2, '0');
+        if (minutesNode) minutesNode.textContent = String(minutes).padStart(2, '0');
+        if (secondsNode) secondsNode.textContent = String(seconds).padStart(2, '0');
+      };
+
+      update();
+      window.setInterval(update, 1000);
+    });
+  })();
+{% endjavascript %}

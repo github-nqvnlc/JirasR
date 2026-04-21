@@ -1,0 +1,98 @@
+{% doc %}
+  Renders a UGC video card with optional badge and caption.
+
+  @param {video} [video] - Shopify-hosted video
+  @param {image} [poster] - Fallback poster image
+  @param {string} [caption] - Caption text
+  @param {string} [author] - Author text
+  @param {boolean} [show_badge] - Whether to show badge
+  @param {string} [badge_text] - Badge text
+  @param {boolean} [show_captions] - Whether to render caption copy
+{% enddoc %}
+
+<article class="tiktok-video-card tiktok-card">
+  <div class="tiktok-video-card__media">
+    {% if video %}
+      {{ video | video_tag: image_size: '720x', autoplay: false, controls: true, loop: false, muted: true, playsinline: true, preload: 'metadata', class: 'tiktok-ugc-video' }}
+    {% elsif poster %}
+      {{ poster | image_url: width: 720 | image_tag: loading: 'lazy', widths: '320, 480, 720', sizes: '(min-width: 990px) 25vw, 70vw' }}
+    {% else %}
+      <div class="tiktok-video-card__placeholder">
+        {% render 'icon', name: 'play', size: 22 %}
+      </div>
+    {% endif %}
+
+    {% if show_badge %}
+      <span class="tiktok-video-card__badge tiktok-badge">
+        {% render 'icon', name: 'tiktok', size: 14 %}
+        {{ badge_text | default: 'Seen on TikTok' }}
+      </span>
+    {% endif %}
+  </div>
+
+  {% if show_captions %}
+    {% if caption != blank or author != blank %}
+      <div class="tiktok-video-card__caption">
+        {% if caption != blank %}
+          <p>{{ caption }}</p>
+        {% endif %}
+        {% if author != blank %}
+          <span>{{ author }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  {% endif %}
+</article>
+
+{% stylesheet %}
+  .tiktok-video-card {
+    overflow: hidden;
+  }
+
+  .tiktok-video-card__media {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    background: linear-gradient(180deg, #1f2937, #0f172a);
+  }
+
+  .tiktok-video-card__media img,
+  .tiktok-video-card__media video,
+  .tiktok-video-card__placeholder {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .tiktok-video-card__placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+  }
+
+  .tiktok-video-card__badge {
+    position: absolute;
+    top: 0.9rem;
+    left: 0.9rem;
+  }
+
+  .tiktok-video-card__caption {
+    padding: 0.9rem 1rem 1rem;
+  }
+
+  .tiktok-video-card__caption p,
+  .tiktok-video-card__caption span {
+    margin: 0;
+  }
+
+  .tiktok-video-card__caption p {
+    font-weight: 600;
+  }
+
+  .tiktok-video-card__caption span {
+    display: inline-block;
+    margin-top: 0.35rem;
+    color: color-mix(in srgb, var(--color-foreground) 68%, white);
+    font-size: 0.9rem;
+  }
+{% endstylesheet %}

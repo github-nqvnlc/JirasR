@@ -2,6 +2,19 @@
   "general": {
     "hero_banner": "Hero Banner"
   },
+  "tiktok_landing": {
+    "theme": {
+      "name": "TikTok Landing"
+    },
+    "labels": {
+      "accent_color": "Accent color",
+      "accent_foreground": "Accent foreground",
+      "surface_background": "Landing surface background",
+      "card_background": "Card background",
+      "card_border": "Card border",
+      "card_radius": "Card radius"
+    }
+  },
   "headers": {
     "media": "Media",
     "content": "Content",

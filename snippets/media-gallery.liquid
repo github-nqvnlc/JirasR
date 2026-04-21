@@ -1,0 +1,235 @@
+{% doc %}
+  Renders a hero media gallery with a main stage and optional thumbnails.
+
+  @param {product} [product] - Product object used for media fallback
+  @param {string} section_id - Parent section ID
+  @param {string} [hero_media_mode] - product_media or custom_media
+  @param {video} [main_video] - Optional custom video
+  @param {image} [main_image] - Optional custom image
+  @param {boolean} [show_thumbnails] - Whether to show thumbnails
+  @param {boolean} [autoplay_video] - Whether to autoplay videos
+  @param {boolean} [loop_video] - Whether to loop videos
+  @param {boolean} [mute_video] - Whether to mute videos
+  @param {string} [badge_text] - Optional badge text
+  @param {string} [media_ratio_mobile] - CSS aspect-ratio for mobile
+  @param {string} [media_ratio_desktop] - CSS aspect-ratio for desktop
+{% enddoc %}
+
+{% liquid
+  assign gallery_product = product
+  assign initial_key = blank
+
+  if hero_media_mode == 'custom_media'
+    if main_video
+      assign initial_key = 'custom-video'
+    elsif main_image
+      assign initial_key = 'custom-image'
+    endif
+  endif
+
+  if initial_key == blank
+    if gallery_product
+      if gallery_product.featured_media
+        assign initial_key = gallery_product.featured_media.id
+      endif
+    endif
+  endif
+%}
+
+<div
+  class="tiktok-media-gallery"
+  data-media-gallery
+  style="--gallery-ratio-mobile: {{ media_ratio_mobile | default: '4 / 5' }}; --gallery-ratio-desktop: {{ media_ratio_desktop | default: '1 / 1' }};"
+>
+  <div class="tiktok-media-gallery__stage tiktok-card">
+    {% if hero_media_mode == 'custom_media' %}
+      {% if main_video %}
+        <div class="tiktok-media-gallery__item{% if initial_key == 'custom-video' %} is-active{% endif %}" data-media-panel="custom-video">
+          {{ main_video | video_tag: image_size: '1200x', autoplay: autoplay_video, controls: true, loop: loop_video, muted: mute_video, playsinline: true, preload: 'metadata' }}
+        </div>
+      {% endif %}
+
+      {% if main_image %}
+        <div class="tiktok-media-gallery__item{% if initial_key == 'custom-image' %} is-active{% endif %}" data-media-panel="custom-image">
+          {{ main_image | image_url: width: 1400 | image_tag: loading: 'eager', widths: '540, 720, 960, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
+        </div>
+      {% endif %}
+    {% endif %}
+
+    {% if gallery_product %}
+      {% for media in gallery_product.media %}
+        <div class="tiktok-media-gallery__item{% if media.id == initial_key %} is-active{% endif %}" data-media-panel="{{ media.id }}">
+          {% case media.media_type %}
+            {% when 'image' %}
+              {{ media | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '540, 720, 960, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
+            {% when 'video' %}
+              {{ media | video_tag: image_size: '1200x', autoplay: false, controls: true, loop: loop_video, muted: mute_video, playsinline: true, preload: 'metadata' }}
+            {% else %}
+              {% if media.preview_image %}
+                {{ media.preview_image | image_url: width: 1400 | image_tag: loading: 'lazy', widths: '540, 720, 960, 1400', sizes: '(min-width: 990px) 50vw, 100vw' }}
+              {% endif %}
+          {% endcase %}
+        </div>
+      {% endfor %}
+    {% endif %}
+
+    {% if badge_text != blank %}
+      <span class="tiktok-media-gallery__badge tiktok-badge">
+        {% render 'icon', name: 'spark', size: 14 %}
+        {{ badge_text }}
+      </span>
+    {% endif %}
+  </div>
+
+  {% if show_thumbnails %}
+    <div class="tiktok-media-gallery__thumbs" role="tablist" aria-label="Product media thumbnails">
+      {% if hero_media_mode == 'custom_media' %}
+        {% if main_video %}
+          <button class="tiktok-media-gallery__thumb{% if initial_key == 'custom-video' %} is-active{% endif %}" type="button" data-media-trigger="custom-video">
+            <span class="tiktok-media-gallery__thumb-inner">
+              {% if main_video.preview_image %}
+                {{ main_video.preview_image | image_url: width: 240 | image_tag: loading: 'lazy' }}
+              {% else %}
+                {% render 'icon', name: 'play', size: 18 %}
+              {% endif %}
+            </span>
+          </button>
+        {% endif %}
+
+        {% if main_image %}
+          <button class="tiktok-media-gallery__thumb{% if initial_key == 'custom-image' %} is-active{% endif %}" type="button" data-media-trigger="custom-image">
+            <span class="tiktok-media-gallery__thumb-inner">
+              {{ main_image | image_url: width: 240 | image_tag: loading: 'lazy' }}
+            </span>
+          </button>
+        {% endif %}
+      {% endif %}
+
+      {% if gallery_product %}
+        {% for media in gallery_product.media %}
+          <button class="tiktok-media-gallery__thumb{% if media.id == initial_key %} is-active{% endif %}" type="button" data-media-trigger="{{ media.id }}">
+            <span class="tiktok-media-gallery__thumb-inner">
+              {% if media.preview_image %}
+                {{ media.preview_image | image_url: width: 240 | image_tag: loading: 'lazy' }}
+              {% else %}
+                {% render 'icon', name: 'play', size: 18 %}
+              {% endif %}
+            </span>
+          </button>
+        {% endfor %}
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .tiktok-media-gallery {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .tiktok-media-gallery__stage {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .tiktok-media-gallery__item {
+    display: none;
+    aspect-ratio: var(--gallery-ratio-mobile);
+    background: #fff;
+  }
+
+  .tiktok-media-gallery__item.is-active {
+    display: block;
+  }
+
+  .tiktok-media-gallery__item img,
+  .tiktok-media-gallery__item video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .tiktok-media-gallery__badge {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  .tiktok-media-gallery__thumbs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(4.25rem, 1fr));
+    gap: 0.65rem;
+  }
+
+  .tiktok-media-gallery__thumb {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .tiktok-media-gallery__thumb-inner {
+    display: block;
+    overflow: hidden;
+    border: 1px solid var(--color-tiktok-card-border);
+    border-radius: 1rem;
+    aspect-ratio: 1 / 1;
+    background: #fff;
+  }
+
+  .tiktok-media-gallery__thumb.is-active .tiktok-media-gallery__thumb-inner {
+    border-color: var(--color-tiktok-accent);
+    box-shadow: 0 0 0 2px rgba(255, 92, 56, 0.12);
+  }
+
+  .tiktok-media-gallery__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media screen and (min-width: 990px) {
+    .tiktok-media-gallery__item {
+      aspect-ratio: var(--gallery-ratio-desktop);
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const galleries = document.querySelectorAll('[data-media-gallery]');
+
+    galleries.forEach((gallery) => {
+      const panels = gallery.querySelectorAll('[data-media-panel]');
+      const triggers = gallery.querySelectorAll('[data-media-trigger]');
+
+      if (!panels.length || !triggers.length) {
+        return;
+      }
+
+      const activate = (key) => {
+        panels.forEach((panel) => {
+          const isActive = panel.getAttribute('data-media-panel') === key;
+          panel.classList.toggle('is-active', isActive);
+
+          if (!isActive) {
+            const video = panel.querySelector('video');
+
+            if (video) {
+              video.pause();
+            }
+          }
+        });
+
+        triggers.forEach((trigger) => {
+          trigger.classList.toggle('is-active', trigger.getAttribute('data-media-trigger') === key);
+        });
+      };
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => activate(trigger.getAttribute('data-media-trigger')));
+      });
+    });
+  })();
+{% endjavascript %}

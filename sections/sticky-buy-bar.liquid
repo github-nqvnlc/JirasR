@@ -1,0 +1,243 @@
+{% liquid
+  assign sticky_product = section.settings.product | default: product
+%}
+
+{% if sticky_product %}
+  <section
+    id="StickyBuyBar-{{ section.id }}"
+    class="sticky-buy-bar{% if section.settings.enable_mobile == false %} sticky-buy-bar--hide-mobile{% endif %}{% if section.settings.enable_desktop == false %} sticky-buy-bar--hide-desktop{% endif %}"
+    data-product-id="{{ sticky_product.id }}"
+    data-scroll-threshold="{{ section.settings.show_after_scroll_px }}"
+  >
+    <div class="tiktok-shell">
+      <div class="sticky-buy-bar__inner tiktok-card">
+        {% render 'sticky-atc-form',
+          product: sticky_product,
+          section_id: section.id,
+          cta_label: section.settings.cta_label,
+          show_price: section.settings.show_price,
+          show_variant_selector: section.settings.show_variant_selector,
+          show_quantity_selector: section.settings.show_quantity_selector
+        %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% javascript %}
+  (() => {
+    const section = document.getElementById('StickyBuyBar-{{ section.id }}');
+
+    if (!section) {
+      return;
+    }
+
+    const productId = String(section.dataset.productId || '');
+    const threshold = Number(section.dataset.scrollThreshold || 400);
+    const form = section.querySelector('[data-product-form]');
+
+    if (!productId || !form) {
+      return;
+    }
+
+    const hero = document.querySelector(`[data-product-hero="${productId}"]`);
+    const variantSelect = form.querySelector('[data-product-variant-select]');
+    const variantInput = form.querySelector('[data-product-variant-id]');
+    const quantityVisible = form.querySelector('[data-product-quantity-visible]');
+    const quantityInput = form.querySelector('[data-product-quantity-input]');
+
+    const syncControls = (detail) => {
+      if (detail.variantId) {
+        if (variantSelect) {
+          variantSelect.value = String(detail.variantId);
+        }
+
+        if (variantInput) {
+          variantInput.value = String(detail.variantId);
+        }
+      }
+
+      if (detail.quantity) {
+        if (quantityVisible) {
+          quantityVisible.value = detail.quantity;
+        }
+
+        if (quantityInput) {
+          quantityInput.value = detail.quantity;
+        }
+      }
+
+      if (detail.variant) {
+        const submitButtons = form.querySelectorAll('button[type="submit"]');
+        submitButtons.forEach((button) => {
+          button.disabled = detail.variant.available === false;
+        });
+      }
+    };
+
+    const emitState = () => {
+      if (!window.TiktokLanding || !window.TiktokLanding.findVariant || !window.TiktokLanding.syncProductState) {
+        return;
+      }
+
+      const variantId = variantSelect ? variantSelect.value : variantInput ? variantInput.value : '';
+      const quantity = quantityVisible ? Math.max(1, parseInt(quantityVisible.value || '1', 10)) : 1;
+      const variant = window.TiktokLanding.findVariant(productId, variantId);
+
+      if (quantityVisible) {
+        quantityVisible.value = quantity;
+      }
+
+      if (quantityInput) {
+        quantityInput.value = quantity;
+      }
+
+      syncControls({ variantId, quantity });
+      window.TiktokLanding.syncProductState(productId, { productId, variantId, quantity, variant, source: section.id });
+    };
+
+    const updateVisibility = () => {
+      const passedThreshold = window.scrollY > threshold;
+      let showBar = passedThreshold;
+
+      if (hero) {
+        showBar = passedThreshold && hero.getBoundingClientRect().bottom < 0;
+      }
+
+      section.classList.toggle('is-visible', showBar);
+    };
+
+    if (variantSelect) {
+      variantSelect.addEventListener('change', emitState);
+    }
+
+    if (quantityVisible) {
+      ['change', 'input'].forEach((eventName) => {
+        quantityVisible.addEventListener(eventName, emitState);
+      });
+    }
+
+    window.addEventListener(`tiktok:product-sync:${productId}`, (event) => {
+      const detail = event.detail || {};
+
+      if (detail.source === section.id) {
+        return;
+      }
+
+      syncControls(detail);
+    });
+
+    document.addEventListener('scroll', updateVisibility, { passive: true });
+    window.addEventListener('resize', updateVisibility);
+    updateVisibility();
+  })();
+{% endjavascript %}
+
+{% stylesheet %}
+  .sticky-buy-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0.75rem;
+    z-index: 30;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(1.5rem);
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .sticky-buy-bar.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .sticky-buy-bar__inner {
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.94);
+    backdrop-filter: blur(14px);
+  }
+
+  .sticky-buy-bar--hide-mobile {
+    display: none;
+  }
+
+  @media screen and (min-width: 750px) {
+    .sticky-buy-bar--hide-mobile {
+      display: block;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .sticky-buy-bar--hide-desktop {
+      display: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Sticky Buy Bar",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_mobile",
+      "label": "Enable on mobile",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_desktop",
+      "label": "Enable on desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_variant_selector",
+      "label": "Show variant selector",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_selector",
+      "label": "Show quantity selector",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "CTA label",
+      "default": "Add to cart"
+    },
+    {
+      "type": "range",
+      "id": "show_after_scroll_px",
+      "min": 100,
+      "max": 1200,
+      "step": 20,
+      "unit": "px",
+      "label": "Show after scrolling",
+      "default": 360
+    }
+  ],
+  "presets": [
+    {
+      "name": "Sticky Buy Bar"
+    }
+  ]
+}
+{% endschema %}

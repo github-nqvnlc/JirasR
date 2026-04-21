@@ -1,0 +1,59 @@
+{% doc %}
+  Renders a compact social proof stat card.
+
+  @param {string} text - Main stat line
+  @param {string} [subtext] - Secondary line
+  @param {string} [icon] - Icon name
+  @param {boolean} [show_icon] - Whether to show the icon
+{% enddoc %}
+
+<article class="tiktok-stat-card tiktok-card">
+  {% if show_icon %}
+    <span class="tiktok-stat-card__icon">
+      {% render 'icon', name: icon | default: 'spark', size: 18 %}
+    </span>
+  {% endif %}
+
+  <div>
+    <p class="tiktok-stat-card__text">{{ text }}</p>
+    {% if subtext != blank %}
+      <p class="tiktok-stat-card__subtext">{{ subtext }}</p>
+    {% endif %}
+  </div>
+</article>
+
+{% stylesheet %}
+  .tiktok-stat-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    padding: 1rem 1rem 1.1rem;
+  }
+
+  .tiktok-stat-card__icon {
+    width: 2.35rem;
+    height: 2.35rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(255, 92, 56, 0.1);
+    color: var(--color-tiktok-accent);
+  }
+
+  .tiktok-stat-card__text,
+  .tiktok-stat-card__subtext {
+    margin: 0;
+  }
+
+  .tiktok-stat-card__text {
+    font-weight: 700;
+    line-height: 1.45;
+  }
+
+  .tiktok-stat-card__subtext {
+    margin-top: 0.25rem;
+    color: color-mix(in srgb, var(--color-foreground) 65%, white);
+    font-size: 0.9rem;
+  }
+{% endstylesheet %}

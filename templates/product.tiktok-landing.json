@@ -1,0 +1,611 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "header_minimal": {
+      "type": "header-minimal",
+      "settings": {
+        "show_menu_icon": true,
+        "show_support_link": true,
+        "support_text": "Track order",
+        "support_url": "/pages/contact",
+        "show_announcement": true,
+        "announcement_text": "Free shipping today only",
+        "sticky_header": true
+      }
+    },
+    "hero": {
+      "type": "product-hero-video",
+      "blocks": {
+        "hero_trust_1": {
+          "type": "trust_bullet",
+          "settings": {
+            "icon": "ship",
+            "text": "Fast shipping"
+          }
+        },
+        "hero_trust_2": {
+          "type": "trust_bullet",
+          "settings": {
+            "icon": "shield",
+            "text": "30-day guarantee"
+          }
+        },
+        "hero_trust_3": {
+          "type": "trust_bullet",
+          "settings": {
+            "icon": "check",
+            "text": "No tools needed"
+          }
+        }
+      },
+      "block_order": ["hero_trust_1", "hero_trust_2", "hero_trust_3"],
+      "settings": {
+        "headline": "Amazing cleaning brush that removes stains in seconds",
+        "subheadline": "A scroll-stopping hook, clear savings, and a simple path to checkout right above the fold.",
+        "badge_text": "Viral pick",
+        "hero_media_mode": "product_media",
+        "autoplay_video": false,
+        "loop_video": true,
+        "mute_video": true,
+        "show_thumbnails": true,
+        "show_rating_summary": true,
+        "rating_text": "4.8 (2,184 reviews)",
+        "show_price": true,
+        "show_compare_price": true,
+        "primary_cta_label": "Buy now",
+        "secondary_cta_label": "Add to cart",
+        "show_secondary_cta": true,
+        "show_dynamic_checkout": true,
+        "show_trust_bullets": true,
+        "trust_style": "stacked",
+        "media_ratio_mobile": "4 / 5",
+        "media_ratio_desktop": "1 / 1",
+        "section_spacing_top": 48,
+        "section_spacing_bottom": 56
+      }
+    },
+    "sticky_bar": {
+      "type": "sticky-buy-bar",
+      "settings": {
+        "enable_mobile": true,
+        "enable_desktop": true,
+        "show_price": true,
+        "show_variant_selector": false,
+        "show_quantity_selector": false,
+        "cta_label": "Add to cart",
+        "show_after_scroll_px": 360
+      }
+    },
+    "proof_stats": {
+      "type": "proof-stats",
+      "blocks": {
+        "proof_1": {
+          "type": "stat",
+          "settings": {
+            "icon": "spark",
+            "text": "12,541 sold this month",
+            "subtext": "Momentum that feels active"
+          }
+        },
+        "proof_2": {
+          "type": "stat",
+          "settings": {
+            "icon": "view",
+            "text": "134 people viewing now",
+            "subtext": "Strong social energy"
+          }
+        },
+        "proof_3": {
+          "type": "stat",
+          "settings": {
+            "icon": "verified",
+            "text": "Verified by 2,184 buyers",
+            "subtext": "Credibility at a glance"
+          }
+        }
+      },
+      "block_order": ["proof_1", "proof_2", "proof_3"],
+      "settings": {
+        "heading": "Trusted by shoppers right now",
+        "subheading": "Three quick social proof stats that keep the landing page feeling alive.",
+        "layout": "grid",
+        "show_icons": true
+      }
+    },
+    "pain_solution": {
+      "type": "pain-solution",
+      "blocks": {
+        "pain_1": {
+          "type": "pain_item",
+          "settings": {
+            "icon": "cross",
+            "text": "Hard work"
+          }
+        },
+        "pain_2": {
+          "type": "pain_item",
+          "settings": {
+            "icon": "clock",
+            "text": "Time waste"
+          }
+        },
+        "pain_3": {
+          "type": "pain_item",
+          "settings": {
+            "icon": "cross",
+            "text": "Still dirty"
+          }
+        },
+        "pain_4": {
+          "type": "pain_item",
+          "settings": {
+            "icon": "cross",
+            "text": "Hand pain"
+          }
+        },
+        "benefit_1": {
+          "type": "benefit_item",
+          "settings": {
+            "icon": "check",
+            "text": "Spins fast"
+          }
+        },
+        "benefit_2": {
+          "type": "benefit_item",
+          "settings": {
+            "icon": "check",
+            "text": "Reaches tight corners"
+          }
+        },
+        "benefit_3": {
+          "type": "benefit_item",
+          "settings": {
+            "icon": "check",
+            "text": "Works on many surfaces"
+          }
+        }
+      },
+      "block_order": ["pain_1", "pain_2", "pain_3", "pain_4", "benefit_1", "benefit_2", "benefit_3"],
+      "settings": {
+        "eyebrow": "Problem to solution",
+        "heading": "Tired of scrubbing for hours?",
+        "heading_subcopy": "Push the pain first, then give shoppers a simple, visual alternative.",
+        "solution_heading": "Meet the easier way",
+        "media_type": "image",
+        "show_media": true,
+        "show_pain_grid": true,
+        "show_benefits": true
+      }
+    },
+    "benefits": {
+      "type": "benefit-icons",
+      "blocks": {
+        "benefit_card_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "spark",
+            "title": "Fast clean",
+            "description": "Makes the result visible in seconds."
+          }
+        },
+        "benefit_card_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "brush",
+            "title": "Easy use",
+            "description": "Simple enough to use right away."
+          }
+        },
+        "benefit_card_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "battery",
+            "title": "Long battery",
+            "description": "Built for repeated quick sessions."
+          }
+        },
+        "benefit_card_4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "drop",
+            "title": "Waterproof",
+            "description": "Ready for wet areas and cleanup."
+          }
+        }
+      },
+      "block_order": ["benefit_card_1", "benefit_card_2", "benefit_card_3", "benefit_card_4"],
+      "settings": {
+        "heading": "Why people love it",
+        "subheading": "Benefits that are easy to scan on both mobile and desktop.",
+        "columns_mobile": "2",
+        "columns_desktop": "4",
+        "show_descriptions": true,
+        "alignment": "center"
+      }
+    },
+    "ugc": {
+      "type": "ugc-video-carousel",
+      "blocks": {
+        "ugc_1": {
+          "type": "ugc_video",
+          "settings": {
+            "caption": "Works exactly as shown in the ad.",
+            "author": "@customerclip"
+          }
+        },
+        "ugc_2": {
+          "type": "ugc_video",
+          "settings": {
+            "caption": "Bought one and ordered two more.",
+            "author": "@verifiedbuyer"
+          }
+        },
+        "ugc_3": {
+          "type": "ugc_video",
+          "settings": {
+            "caption": "The before-and-after sold me immediately.",
+            "author": "@familyfinds"
+          }
+        }
+      },
+      "block_order": ["ugc_1", "ugc_2", "ugc_3"],
+      "settings": {
+        "heading": "Real customer videos",
+        "subheading": "Use vertical UGC to bridge the gap between ad creative and checkout intent.",
+        "show_captions": true,
+        "show_badge": true,
+        "badge_text": "Seen on TikTok"
+      }
+    },
+    "how_it_works": {
+      "type": "how-it-works",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Attach the brush head",
+            "description": "Pick the head that matches the surface you need to clean.",
+            "icon": "brush"
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Press the power button",
+            "description": "Start with a simple tap and let the tool do the work.",
+            "icon": "spark"
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Clean in circular motion",
+            "description": "Guide it lightly to lift grime without extra strain.",
+            "icon": "shield"
+          }
+        }
+      },
+      "block_order": ["step_1", "step_2", "step_3"],
+      "settings": {
+        "heading": "How it works",
+        "subheading": "A simple three-step walkthrough lowers friction for gadget-style products.",
+        "show_media": true,
+        "media_type": "image",
+        "show_step_numbers": true
+      }
+    },
+    "comparison": {
+      "type": "comparison-table",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "feature": "Fast cleaning",
+            "left_value": "check",
+            "right_value": "cross"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "feature": "Easy to use",
+            "left_value": "check",
+            "right_value": "cross"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "feature": "Durable design",
+            "left_value": "check",
+            "right_value": "cross"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "feature": "Warranty included",
+            "left_value": "check",
+            "right_value": "cross"
+          }
+        }
+      },
+      "block_order": ["row_1", "row_2", "row_3", "row_4"],
+      "settings": {
+        "heading": "Why choose us?",
+        "subheading": "Keep the comparison short and decisive so it pushes conviction instead of adding clutter.",
+        "left_label": "Ours",
+        "right_label": "Others",
+        "show_right_column": true
+      }
+    },
+    "bundle": {
+      "type": "bundle-selector",
+      "blocks": {
+        "bundle_1": {
+          "type": "bundle_option",
+          "settings": {
+            "title": "1 Pack",
+            "subtitle": "Starter order",
+            "price": "$29.99",
+            "compare_price": "$49.99",
+            "badge": "",
+            "shipping_note": "Perfect for trying it out",
+            "variant_id": "manual"
+          }
+        },
+        "bundle_2": {
+          "type": "bundle_option",
+          "settings": {
+            "title": "2 Pack",
+            "subtitle": "Most popular",
+            "price": "$49.99",
+            "compare_price": "$79.99",
+            "badge": "Best value",
+            "shipping_note": "Great for bigger jobs",
+            "variant_id": "manual"
+          }
+        },
+        "bundle_3": {
+          "type": "bundle_option",
+          "settings": {
+            "title": "3 Pack",
+            "subtitle": "Family bundle",
+            "price": "$69.99",
+            "compare_price": "$99.99",
+            "badge": "Free shipping",
+            "shipping_note": "Best for gifts or backups",
+            "variant_id": "manual"
+          }
+        }
+      },
+      "block_order": ["bundle_1", "bundle_2", "bundle_3"],
+      "settings": {
+        "heading": "Choose your deal",
+        "subheading": "Large radio cards keep the offer easy to compare and easy to tap.",
+        "cta_label": "Add bundle to cart",
+        "auto_select_first_option": true
+      }
+    },
+    "timer": {
+      "type": "urgency-timer",
+      "settings": {
+        "heading": "Limited-time offer ends in",
+        "end_datetime": "2026-12-31T23:59:59",
+        "expiry_behavior": "restart_daily",
+        "expiry_message": "This offer has just ended.",
+        "shipping_note": "Free shipping when you order today",
+        "show_timer": true
+      }
+    },
+    "details": {
+      "type": "details-accordion",
+      "blocks": {
+        "detail_1": {
+          "type": "item",
+          "settings": {
+            "title": "Materials",
+            "content": "<p>Use this area for product materials, included accessories, and what the buyer receives.</p>"
+          }
+        },
+        "detail_2": {
+          "type": "item",
+          "settings": {
+            "title": "Size & specs",
+            "content": "<p>Summarize the key size, power, or capacity details in a concise, skimmable format.</p>"
+          }
+        },
+        "detail_3": {
+          "type": "item",
+          "settings": {
+            "title": "Shipping info",
+            "content": "<p>Explain current shipping speed expectations and what happens after checkout.</p>"
+          }
+        }
+      },
+      "block_order": ["detail_1", "detail_2", "detail_3"],
+      "settings": {
+        "heading": "Product details",
+        "open_first_item": false
+      }
+    },
+    "reviews": {
+      "type": "reviews-wall",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Works exactly as shown",
+            "content": "Fast result, easy setup, and the page matched the real experience.",
+            "author": "Anna",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "title": "Bought two more",
+            "content": "The first one sold me, so I ordered extra for family use.",
+            "author": "Minh",
+            "verified": true
+          }
+        }
+      },
+      "block_order": ["review_1", "review_2"],
+      "settings": {
+        "heading": "Customer reviews",
+        "overall_rating": "4.8 out of 5",
+        "review_count": "2,184",
+        "show_summary": true,
+        "show_filters": true,
+        "show_verified_badge": true
+      }
+    },
+    "faq": {
+      "type": "faq-accordion",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>Use this answer to set realistic expectations and reduce uncertainty before purchase.</p>"
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "Is it waterproof?",
+            "answer": "<p>Clarify the intended use case and any limits so shoppers can self-qualify quickly.</p>"
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "What if I do not like it?",
+            "answer": "<p>Reinforce the guarantee and the support path to lower the last conversion objection.</p>"
+          }
+        }
+      },
+      "block_order": ["faq_1", "faq_2", "faq_3"],
+      "settings": {
+        "heading": "Frequently asked questions",
+        "show_contact_cta": true,
+        "contact_label": "Contact support",
+        "contact_url": "/pages/contact",
+        "open_first_item": false
+      }
+    },
+    "guarantee": {
+      "type": "guarantee-banner",
+      "settings": {
+        "heading": "30-Day Money-Back Guarantee",
+        "content": "Try it risk-free. If you do not love it, contact us and we will help make it right.",
+        "show_icon": true,
+        "icon": "shield"
+      }
+    },
+    "final_cta": {
+      "type": "final-cta",
+      "blocks": {
+        "final_trust_1": {
+          "type": "trust_bullet",
+          "settings": {
+            "icon": "shield",
+            "text": "Secure checkout"
+          }
+        },
+        "final_trust_2": {
+          "type": "trust_bullet",
+          "settings": {
+            "icon": "ship",
+            "text": "Fast shipping"
+          }
+        },
+        "final_trust_3": {
+          "type": "trust_bullet",
+          "settings": {
+            "icon": "check",
+            "text": "30-day guarantee"
+          }
+        }
+      },
+      "block_order": ["final_trust_1", "final_trust_2", "final_trust_3"],
+      "settings": {
+        "heading": "Ready to make cleaning easier?",
+        "subheading": "Repeat the offer one last time with clear pricing, trust cues, and a direct CTA.",
+        "show_price": true,
+        "primary_cta_label": "Buy now",
+        "secondary_cta_label": "Add to cart",
+        "show_secondary_cta": true,
+        "show_trust_bullets": true,
+        "alignment": "left"
+      }
+    },
+    "footer_minimal": {
+      "type": "footer-minimal",
+      "blocks": {
+        "footer_link_1": {
+          "type": "link",
+          "settings": {
+            "label": "Contact",
+            "url": "/pages/contact"
+          }
+        },
+        "footer_link_2": {
+          "type": "link",
+          "settings": {
+            "label": "Tracking",
+            "url": "/pages/tracking"
+          }
+        },
+        "footer_link_3": {
+          "type": "link",
+          "settings": {
+            "label": "Refunds",
+            "url": "/pages/refund-policy"
+          }
+        },
+        "footer_link_4": {
+          "type": "link",
+          "settings": {
+            "label": "Privacy",
+            "url": "/policies/privacy-policy"
+          }
+        }
+      },
+      "block_order": ["footer_link_1", "footer_link_2", "footer_link_3", "footer_link_4"],
+      "settings": {
+        "copyright_text": "(c) Brand name"
+      }
+    }
+  },
+  "order": [
+    "header_minimal",
+    "hero",
+    "sticky_bar",
+    "proof_stats",
+    "pain_solution",
+    "benefits",
+    "ugc",
+    "how_it_works",
+    "comparison",
+    "bundle",
+    "timer",
+    "details",
+    "reviews",
+    "faq",
+    "guarantee",
+    "final_cta",
+    "footer_minimal"
+  ]
+}

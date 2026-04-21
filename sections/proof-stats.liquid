@@ -1,0 +1,130 @@
+<section class="tiktok-section tiktok-section--compact proof-stats">
+  <div class="tiktok-shell">
+    {% if section.settings.heading != blank %}
+      {% render 'section-heading', heading: section.settings.heading, subheading: section.settings.subheading, alignment: 'left' %}
+    {% endif %}
+
+    <div class="proof-stats__grid proof-stats__grid--{{ section.settings.layout }}">
+      {% for block in section.blocks %}
+        {% render 'stat-card', text: block.settings.text, subtext: block.settings.subtext, icon: block.settings.icon, show_icon: section.settings.show_icons %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .proof-stats__grid {
+    display: grid;
+    gap: 0.85rem;
+  }
+
+  .proof-stats__grid--grid {
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Proof Stats",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Trusted by shoppers right now"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Short, punchy proof points that make the offer feel active and credible."
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "stacked",
+          "label": "Stacked"
+        },
+        {
+          "value": "grid",
+          "label": "Grid"
+        }
+      ],
+      "default": "grid"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icons",
+      "label": "Show icons",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "spark",
+              "label": "Spark"
+            },
+            {
+              "value": "view",
+              "label": "View"
+            },
+            {
+              "value": "verified",
+              "label": "Verified"
+            },
+            {
+              "value": "gift",
+              "label": "Gift"
+            }
+          ],
+          "default": "spark"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "12,541 sold this month"
+        },
+        {
+          "type": "text",
+          "id": "subtext",
+          "label": "Subtext",
+          "default": "Momentum that feels fresh and active."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Proof Stats",
+      "blocks": [
+        {
+          "type": "stat"
+        },
+        {
+          "type": "stat"
+        },
+        {
+          "type": "stat"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

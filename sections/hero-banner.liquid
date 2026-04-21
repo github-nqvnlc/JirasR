@@ -57,26 +57,26 @@
 
 {% schema %}
 {
-  "name": "t:general.hero_banner",
+  "name": "Hero Banner",
   "settings": [
     {
       "type": "header",
-      "content": "t:headers.media"
+      "content": "Media"
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "t:labels.image"
+      "label": "Image"
     },
     {
       "type": "video",
       "id": "video",
-      "label": "t:labels.video"
+      "label": "Video"
     },
     {
       "type": "range",
       "id": "overlay_opacity",
-      "label": "t:labels.overlay_opacity",
+      "label": "Overlay Opacity",
       "min": 0,
       "max": 100,
       "step": 10,
@@ -84,92 +84,92 @@
     },
     {
       "type": "header",
-      "content": "t:headers.content"
+      "content": "Content"
     },
     {
       "type": "text",
       "id": "badge_text",
-      "label": "t:labels.badge_text",
-      "info": "t:infos.optional"
+      "label": "Badge Text",
+      "info": "Optional"
     },
     {
       "type": "text",
       "id": "headline",
-      "label": "t:labels.headline",
+      "label": "Headline",
       "default": "Welcome to our store"
     },
     {
       "type": "textarea",
       "id": "subheadline",
-      "label": "t:labels.subheadline",
-      "info": "t:infos.optional"
+      "label": "Subheadline",
+      "info": "Optional"
     },
     {
       "type": "header",
-      "content": "t:headers.buttons"
+      "content": "Buttons"
     },
     {
       "type": "text",
       "id": "primary_button_text",
-      "label": "t:labels.primary_button_text"
+      "label": "Primary Button Text"
     },
     {
       "type": "url",
       "id": "primary_button_url",
-      "label": "t:labels.primary_button_url"
+      "label": "Primary Button URL"
     },
     {
       "type": "text",
       "id": "secondary_button_text",
-      "label": "t:labels.secondary_button_text",
-      "info": "t:infos.optional"
+      "label": "Secondary Button Text",
+      "info": "Optional"
     },
     {
       "type": "url",
       "id": "secondary_button_url",
-      "label": "t:labels.secondary_button_url"
+      "label": "Secondary Button URL"
     },
     {
       "type": "header",
-      "content": "t:headers.layout"
+      "content": "Layout"
     },
     {
       "type": "select",
       "id": "height",
-      "label": "t:labels.height",
+      "label": "Banner Height",
       "options": [
-        { "value": "h-96", "label": "t:options.height.small" },
-        { "value": "h-screen", "label": "t:options.height.medium" },
-        { "value": "min-h-screen", "label": "t:options.height.large" }
+        { "value": "h-96", "label": "Small (384px)" },
+        { "value": "h-screen", "label": "Medium (Full Height)" },
+        { "value": "min-h-screen", "label": "Large (Min Height)" }
       ],
       "default": "h-screen"
     },
     {
       "type": "select",
       "id": "text_alignment",
-      "label": "t:labels.text_alignment",
+      "label": "Text Alignment",
       "options": [
-        { "value": "items-start text-left", "label": "t:options.alignment.left" },
-        { "value": "items-center text-center", "label": "t:options.alignment.center" },
-        { "value": "items-end text-right", "label": "t:options.alignment.right" }
+        { "value": "items-start text-left", "label": "Left" },
+        { "value": "items-center text-center", "label": "Center" },
+        { "value": "items-end text-right", "label": "Right" }
       ],
       "default": "items-center text-center"
     },
     {
       "type": "select",
       "id": "content_vertical_align",
-      "label": "t:labels.content_vertical_align",
+      "label": "Content Position",
       "options": [
-        { "value": "my-auto", "label": "t:options.alignment.top" },
-        { "value": "my-auto mx-auto text-center", "label": "t:options.alignment.center" },
-        { "value": "mt-auto mb-12", "label": "t:options.alignment.bottom" }
+        { "value": "my-auto", "label": "Top" },
+        { "value": "my-auto mx-auto text-center", "label": "Center" },
+        { "value": "mt-auto mb-12", "label": "Bottom" }
       ],
       "default": "my-auto"
     }
   ],
   "presets": [
     {
-      "name": "t:general.hero_banner"
+      "name": "Hero Banner"
     }
   ]
 }

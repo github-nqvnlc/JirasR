@@ -1,0 +1,107 @@
+{% doc %}
+  Renders a branded CTA button or link.
+
+  @param {string} label - Button text
+  @param {string} [href] - Optional destination URL
+  @param {string} [type] - Button type for button elements
+  @param {string} [style] - Visual style: primary, secondary, ghost, inverse
+  @param {string} [form] - Optional form attribute
+  @param {string} [name] - Optional submitted field name
+  @param {string} [value] - Optional submitted field value
+  @param {string} [icon] - Optional icon name
+  @param {boolean} [full_width] - Make the control full width
+  @param {boolean} [disabled] - Disable the control
+  @param {string} [class] - Additional class names
+{% enddoc %}
+
+{% liquid
+  assign button_label = label | default: 'Shop now'
+  assign button_style = style | default: 'primary'
+
+  if href
+    assign button_tag = 'a'
+  else
+    assign button_tag = 'button'
+  endif
+%}
+
+<{{ button_tag }}
+  class="tiktok-button tiktok-button--{{ button_style }}{% if full_width %} tiktok-button--full{% endif %} {{ class }}"
+  {% if href %}
+    href="{{ href }}"
+  {% else %}
+    type="{{ type | default: 'button' }}"
+  {% endif %}
+  {% if form %}
+    form="{{ form }}"
+  {% endif %}
+  {% if name %}
+    name="{{ name }}"
+  {% endif %}
+  {% if value %}
+    value="{{ value }}"
+  {% endif %}
+  {% if disabled %}
+    disabled
+  {% endif %}
+>
+  {% if icon %}
+    {% render 'icon', name: icon, class: 'tiktok-button__icon', size: 17 %}
+  {% endif %}
+  <span>{{ button_label }}</span>
+</{{ button_tag }}>
+
+{% stylesheet %}
+  .tiktok-button {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    min-height: 3.35rem;
+    padding: 0.95rem 1.35rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: transform 160ms ease, box-shadow 160ms ease, background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+  }
+
+  .tiktok-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .tiktok-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+    transform: none;
+  }
+
+  .tiktok-button--full {
+    width: 100%;
+  }
+
+  .tiktok-button--primary {
+    background: var(--color-tiktok-accent);
+    color: var(--color-tiktok-accent-foreground);
+    box-shadow: 0 18px 32px rgba(255, 92, 56, 0.24);
+  }
+
+  .tiktok-button--secondary {
+    background: #fff;
+    color: var(--color-foreground);
+    border: 1px solid var(--color-tiktok-card-border);
+  }
+
+  .tiktok-button--ghost {
+    background: rgba(255, 92, 56, 0.1);
+    color: var(--color-tiktok-accent);
+  }
+
+  .tiktok-button--inverse {
+    background: var(--color-foreground);
+    color: #fff;
+  }
+{% endstylesheet %}

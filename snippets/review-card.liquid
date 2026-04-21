@@ -1,0 +1,112 @@
+{% doc %}
+  Renders a review card with optional image or video.
+
+  @param {number} rating - Review rating from 1 to 5
+  @param {string} title - Review title
+  @param {string} content - Review content
+  @param {string} author - Review author
+  @param {boolean} [verified] - Whether to show verified state
+  @param {image} [image] - Optional review image
+  @param {video} [video] - Optional review video
+  @param {boolean} [show_verified_badge] - Whether to show the verified pill
+{% enddoc %}
+
+<article class="tiktok-review-card tiktok-card">
+  <div class="tiktok-review-card__rating" aria-label="{{ rating }} out of 5 stars">
+    {% for star in (1..5) %}
+      <span{% if star > rating %} class="tiktok-review-card__star--off"{% endif %}>&#9733;</span>
+    {% endfor %}
+  </div>
+
+  {% if title != blank %}
+    <h3 class="tiktok-review-card__title">{{ title }}</h3>
+  {% endif %}
+
+  <div class="tiktok-review-card__content">{{ content }}</div>
+
+  {% if video %}
+    <div class="tiktok-review-card__media">
+      {{ video | video_tag: image_size: '600x', controls: true, playsinline: true, preload: 'metadata' }}
+    </div>
+  {% elsif image %}
+    <div class="tiktok-review-card__media">
+      {{ image | image_url: width: 700 | image_tag: loading: 'lazy', widths: '320, 480, 700', sizes: '(min-width: 990px) 33vw, 100vw' }}
+    </div>
+  {% endif %}
+
+  <div class="tiktok-review-card__footer">
+    <span class="tiktok-review-card__author">{{ author }}</span>
+    {% if show_verified_badge %}
+      {% if verified %}
+        <span class="tiktok-review-card__verified">
+          {% render 'icon', name: 'verified', size: 14 %}
+          Verified buyer
+        </span>
+      {% endif %}
+    {% endif %}
+  </div>
+</article>
+
+{% stylesheet %}
+  .tiktok-review-card {
+    padding: 1.2rem;
+  }
+
+  .tiktok-review-card__rating {
+    color: #ff9f0a;
+    display: flex;
+    gap: 0.18rem;
+  }
+
+  .tiktok-review-card__star--off {
+    color: #e2e8f0;
+  }
+
+  .tiktok-review-card__title {
+    margin: 0.85rem 0 0;
+    font-size: 1.05rem;
+  }
+
+  .tiktok-review-card__content {
+    margin-top: 0.65rem;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--color-foreground) 78%, white);
+  }
+
+  .tiktok-review-card__media {
+    margin-top: 1rem;
+    overflow: hidden;
+    border-radius: calc(var(--style-tiktok-card-radius) - 8px);
+    background: var(--color-tiktok-surface);
+  }
+
+  .tiktok-review-card__media img,
+  .tiktok-review-card__media video {
+    width: 100%;
+    object-fit: cover;
+  }
+
+  .tiktok-review-card__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+
+  .tiktok-review-card__author {
+    font-weight: 700;
+  }
+
+  .tiktok-review-card__verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.35rem 0.65rem;
+    border-radius: 999px;
+    background: rgba(255, 92, 56, 0.08);
+    color: var(--color-tiktok-accent);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+{% endstylesheet %}

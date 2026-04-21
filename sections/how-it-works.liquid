@@ -1,0 +1,217 @@
+<section class="tiktok-section how-it-works">
+  <div class="tiktok-shell">
+    <div class="tiktok-desktop-grid how-it-works__grid">
+      <div>
+        {% render 'section-heading', heading: section.settings.heading, subheading: section.settings.subheading, alignment: 'left' %}
+
+        <div class="how-it-works__steps">
+          {% for block in section.blocks %}
+            <article class="how-it-works__step">
+              {% if section.settings.show_step_numbers %}
+                <span class="how-it-works__number">{{ forloop.index }}</span>
+              {% else %}
+                <span class="how-it-works__number">
+                  {% render 'icon', name: block.settings.icon, size: 16 %}
+                </span>
+              {% endif %}
+              <div>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      </div>
+
+      {% if section.settings.show_media %}
+        <div class="how-it-works__media tiktok-card">
+          {% if section.settings.media_type == 'video' %}
+            {% if section.settings.video %}
+              {{ section.settings.video | video_tag: image_size: '1200x', controls: true, playsinline: true, preload: 'metadata' }}
+            {% endif %}
+          {% else %}
+            {% if section.settings.image %}
+              {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', widths: '540, 720, 960, 1200', sizes: '(min-width: 990px) 40vw, 100vw' }}
+            {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .how-it-works__grid {
+    gap: 1.5rem;
+  }
+
+  .how-it-works__steps {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 1.25rem;
+  }
+
+  .how-it-works__step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 1rem;
+    border-radius: var(--style-tiktok-card-radius);
+    background: color-mix(in srgb, var(--color-tiktok-surface) 80%, white);
+  }
+
+  .how-it-works__number {
+    width: 2.3rem;
+    height: 2.3rem;
+    border-radius: 999px;
+    background: var(--color-tiktok-accent);
+    color: var(--color-tiktok-accent-foreground);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    flex: 0 0 auto;
+  }
+
+  .how-it-works__step h3,
+  .how-it-works__step p {
+    margin: 0;
+  }
+
+  .how-it-works__step p {
+    margin-top: 0.35rem;
+    color: color-mix(in srgb, var(--color-foreground) 72%, white);
+    line-height: 1.6;
+  }
+
+  .how-it-works__media {
+    overflow: hidden;
+    align-self: stretch;
+  }
+
+  .how-it-works__media img,
+  .how-it-works__media video {
+    width: 100%;
+    height: 100%;
+    min-height: 24rem;
+    object-fit: cover;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "How It Works",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "How it works"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "A low-friction 3-step walkthrough that makes the product feel easy before the shopper buys."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media",
+      "label": "Show media",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "media_type",
+      "label": "Media type",
+      "options": [
+        {
+          "value": "image",
+          "label": "Image"
+        },
+        {
+          "value": "video",
+          "label": "Video"
+        }
+      ],
+      "default": "image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_step_numbers",
+      "label": "Show step numbers",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Attach the brush head"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Snap on the head that fits the surface you want to clean."
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "brush",
+              "label": "Brush"
+            },
+            {
+              "value": "spark",
+              "label": "Spark"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            }
+          ],
+          "default": "brush"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "How It Works",
+      "blocks": [
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

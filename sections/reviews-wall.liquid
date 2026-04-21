@@ -1,0 +1,192 @@
+<section class="tiktok-section reviews-wall">
+  <div class="tiktok-shell">
+    {% render 'section-heading', heading: section.settings.heading, alignment: 'left' %}
+
+    {% if section.settings.show_summary %}
+      <div class="reviews-wall__summary">
+        <div>
+          <div class="tiktok-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+          <strong>{{ section.settings.overall_rating }}</strong>
+        </div>
+        <span>Based on {{ section.settings.review_count }} reviews</span>
+      </div>
+    {% endif %}
+
+    {% if section.settings.show_filters %}
+      <div class="reviews-wall__filters" aria-label="Review filters">
+        <button type="button">Most recent</button>
+        <button type="button">With photos</button>
+        <button type="button">Verified only</button>
+      </div>
+    {% endif %}
+
+    <div class="reviews-wall__grid">
+      {% for block in section.blocks %}
+        {% render 'review-card',
+          rating: block.settings.rating,
+          title: block.settings.title,
+          content: block.settings.content,
+          author: block.settings.author,
+          verified: block.settings.verified,
+          image: block.settings.image,
+          video: block.settings.video,
+          show_verified_badge: section.settings.show_verified_badge
+        %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .reviews-wall__summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.9rem;
+    margin: 1.25rem 0 1rem;
+  }
+
+  .reviews-wall__summary strong {
+    display: block;
+    margin-top: 0.25rem;
+    font-size: 1.2rem;
+  }
+
+  .reviews-wall__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+  }
+
+  .reviews-wall__filters button {
+    border: 1px solid var(--color-tiktok-card-border);
+    border-radius: 999px;
+    background: #fff;
+    padding: 0.65rem 0.95rem;
+  }
+
+  .reviews-wall__grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media screen and (min-width: 990px) {
+    .reviews-wall__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Reviews Wall",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Customer reviews"
+    },
+    {
+      "type": "text",
+      "id": "overall_rating",
+      "label": "Overall rating",
+      "default": "4.8 out of 5"
+    },
+    {
+      "type": "text",
+      "id": "review_count",
+      "label": "Review count",
+      "default": "2,184"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show summary",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_filters",
+      "label": "Show filters",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_verified_badge",
+      "label": "Show verified badge",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Works exactly as shown"
+        },
+        {
+          "type": "textarea",
+          "id": "content",
+          "label": "Content",
+          "default": "Great before-and-after result, and it felt easy from the first use."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Anna"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Verified",
+          "default": true
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Reviews Wall",
+      "blocks": [
+        {
+          "type": "review"
+        },
+        {
+          "type": "review"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

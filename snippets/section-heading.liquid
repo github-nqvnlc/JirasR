@@ -1,0 +1,32 @@
+{% doc %}
+  Renders a reusable section heading group.
+
+  @param {string} [eyebrow] - Small uppercase lead-in text
+  @param {string} [heading] - Main heading
+  @param {string} [subheading] - Optional supporting copy
+  @param {string} [alignment] - Alignment: left, center
+{% enddoc %}
+
+<div class="tiktok-section-heading tiktok-section-heading--{{ alignment | default: 'left' }}">
+  {% if eyebrow != blank %}
+    <p class="tiktok-eyebrow">{{ eyebrow }}</p>
+  {% endif %}
+
+  {% if heading != blank %}
+    <h2 class="tiktok-heading">{{ heading }}</h2>
+  {% endif %}
+
+  {% if subheading != blank %}
+    <div class="tiktok-subheading">{{ subheading }}</div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .tiktok-section-heading--center {
+    text-align: center;
+  }
+
+  .tiktok-section-heading--center .tiktok-subheading {
+    margin-inline: auto;
+  }
+{% endstylesheet %}

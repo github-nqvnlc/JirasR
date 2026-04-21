@@ -1,39 +1,27 @@
 <!doctype html>
 <html lang="{{ request.locale.iso_code }}">
+  {% liquid
+    assign use_section_groups = true
+
+    if template.suffix == 'tiktok-landing'
+      assign use_section_groups = false
+    endif
+  %}
+
   <head>
-    {% # Inlined CSS Variables %}
-    {% render 'css-variables' %}
-
-    {% comment %}
-      Font preloading:
-      1. Preconnect to font CDN for faster connection
-      2. Preload only the critical font variant (base weight)
-      3. Additional variants load on-demand via @font-face
-    {% endcomment %}
-    {% unless settings.type_primary_font.system? %}
-      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
-
-      {% comment %} Preload the base font variant for initial page render {% endcomment %}
-      {{ settings.type_primary_font | font_url | preload_tag: as: 'font', crossorigin: 'anonymous' }}
-    {% endunless %}
-
-    {% # Load compiled Tailwind CSS %}
-    {% comment %} {{ 'tailwind.css' | asset_url | stylesheet_tag }} {% endcomment %}
-    {% assign tailwind_css = 'tailwind.css' | asset_url %}
-
-    <link rel="stylesheet" href="{{ tailwind_css }}" rel="stylesheet" type="text/css" media="all">
-
-    {% # Social, title, etc. %}
-    {% render 'meta-tags' %}
-
+    {% render 'theme-head' %}
     {{ content_for_header }}
   </head>
 
-  <body>
-    {% sections 'header-group' %}
+  <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %}{% if template.suffix == 'tiktok-landing' %} tiktok-landing-page{% endif %}">
+    {% if use_section_groups %}
+      {% sections 'header-group' %}
+    {% endif %}
 
     {{ content_for_layout }}
 
-    {% comment %} {% sections 'footer-group' %} {% endcomment %}
+    {% if use_section_groups %}
+      {% comment %} {% sections 'footer-group' %} {% endcomment %}
+    {% endif %}
   </body>
 </html>

@@ -1,0 +1,79 @@
+{% doc %}
+  Renders a compact sticky add-to-cart form.
+
+  @param {product} product - Product object
+  @param {string} section_id - Parent section ID
+  @param {string} [cta_label] - CTA label
+  @param {boolean} [show_price] - Whether to show the price block
+  @param {boolean} [show_variant_selector] - Whether to show variant selector
+  @param {boolean} [show_quantity_selector] - Whether to show quantity selector
+{% enddoc %}
+
+{% liquid
+  assign sticky_product = product
+  assign sticky_variant = sticky_product.selected_or_first_available_variant
+  assign sticky_form_id = 'StickyAtcForm-' | append: section_id
+%}
+
+{% form 'product', sticky_product, class: 'tiktok-sticky-form', id: sticky_form_id, data-product-form: '', data-product-id: sticky_product.id %}
+  <input type="hidden" name="quantity" value="1" data-product-quantity-input>
+
+  <div class="tiktok-sticky-form__content">
+    {% if show_price %}
+      <div class="tiktok-sticky-form__price">
+        {% render 'price', product: sticky_product, variant: sticky_variant, show_compare: true, show_badge: false %}
+      </div>
+    {% endif %}
+
+    <div class="tiktok-sticky-form__controls">
+      {% if show_variant_selector %}
+        <label class="tiktok-sr-only" for="StickyVariant-{{ section_id }}">Variant</label>
+        <select id="StickyVariant-{{ section_id }}" class="tiktok-select" name="id" data-product-variant-select>
+          {% for variant in sticky_product.variants %}
+            <option value="{{ variant.id }}"{% if variant.id == sticky_variant.id %} selected{% endif %}>
+              {{ variant.title }} - {{ variant.price | money }}
+            </option>
+          {% endfor %}
+        </select>
+      {% else %}
+        <input type="hidden" name="id" value="{{ sticky_variant.id }}" data-product-variant-id>
+      {% endif %}
+
+      {% if show_quantity_selector %}
+        <label class="tiktok-sr-only" for="StickyQuantity-{{ section_id }}">Quantity</label>
+        <input id="StickyQuantity-{{ section_id }}" class="tiktok-input" type="number" min="1" value="1" data-product-quantity-visible>
+      {% endif %}
+
+      {% render 'button', label: cta_label | default: 'Add to cart', type: 'submit', style: 'primary', full_width: true %}
+    </div>
+  </div>
+{% endform %}
+
+{% stylesheet %}
+  .tiktok-sticky-form__content {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .tiktok-sticky-form__price .tiktok-money__sale {
+    font-size: 1.45rem;
+  }
+
+  .tiktok-sticky-form__controls {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  @media screen and (min-width: 750px) {
+    .tiktok-sticky-form__content {
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .tiktok-sticky-form__controls {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      align-items: center;
+    }
+  }
+{% endstylesheet %}

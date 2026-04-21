@@ -1,3 +1,9 @@
+{% doc %}
+  Defines shared CSS custom properties from theme settings and loads theme fonts.
+
+  No parameters.
+{% enddoc %}
+
 {% style %}
   {% # Loads all font variantions with display: swap %}
   {{ settings.type_primary_font | font_face: font_display: 'swap' }}
@@ -14,5 +20,11 @@
     --color-background: {{ settings.background_color }};
     --color-foreground: {{ settings.foreground_color }};
     --style-border-radius-inputs: {{ settings.input_corner_radius }}px;
+    --color-tiktok-accent: {{ settings.tiktok_accent_color }};
+    --color-tiktok-accent-foreground: {{ settings.tiktok_accent_foreground }};
+    --color-tiktok-surface: {{ settings.tiktok_surface_background }};
+    --color-tiktok-card-background: {{ settings.tiktok_card_background }};
+    --color-tiktok-card-border: {{ settings.tiktok_card_border }};
+    --style-tiktok-card-radius: {{ settings.tiktok_card_radius }}px;
   }
 {% endstyle %}

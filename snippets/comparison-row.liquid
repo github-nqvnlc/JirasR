@@ -1,0 +1,61 @@
+{% doc %}
+  Renders a comparison row for "ours vs others".
+
+  @param {string} feature - Row label
+  @param {string} left_value - Left column value
+  @param {string} [right_value] - Right column value
+  @param {boolean} [show_right] - Whether to render the right column
+{% enddoc %}
+
+<div class="tiktok-comparison-row">
+  <div class="tiktok-comparison-row__feature">{{ feature }}</div>
+  <div class="tiktok-comparison-row__value tiktok-comparison-row__value--left">
+    {% if left_value == 'check' %}
+      {% render 'icon', name: 'check', size: 18 %}
+    {% elsif left_value == 'cross' %}
+      {% render 'icon', name: 'cross', size: 18 %}
+    {% else %}
+      {{ left_value }}
+    {% endif %}
+  </div>
+  {% if show_right %}
+    <div class="tiktok-comparison-row__value">
+      {% if right_value == 'check' %}
+        {% render 'icon', name: 'check', size: 18 %}
+      {% elsif right_value == 'cross' %}
+        {% render 'icon', name: 'cross', size: 18 %}
+      {% else %}
+        {{ right_value }}
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .tiktok-comparison-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) repeat(2, minmax(0, 0.75fr));
+    gap: 0.75rem;
+    align-items: center;
+    padding: 0.9rem 1rem;
+    border-top: 1px solid color-mix(in srgb, var(--color-tiktok-card-border) 80%, transparent);
+  }
+
+  .tiktok-comparison-row__feature {
+    font-weight: 600;
+  }
+
+  .tiktok-comparison-row__value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.25rem;
+    border-radius: 999px;
+    background: #fff;
+  }
+
+  .tiktok-comparison-row__value--left {
+    color: var(--color-tiktok-accent);
+    font-weight: 700;
+  }
+{% endstylesheet %}

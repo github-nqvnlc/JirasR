@@ -1,0 +1,295 @@
+{% liquid
+  assign final_product = section.settings.product | default: product
+
+  if final_product
+    assign final_variant = final_product.selected_or_first_available_variant
+  endif
+%}
+
+{% if final_product %}
+  <section class="tiktok-section final-cta" id="FinalCta-{{ section.id }}" data-product-id="{{ final_product.id }}">
+    <div class="tiktok-shell">
+      <div class="final-cta__card tiktok-card">
+        <div class="final-cta__copy final-cta__copy--{{ section.settings.alignment }}">
+          <h2 class="final-cta__heading">{{ section.settings.heading }}</h2>
+          {% if section.settings.subheading != blank %}
+            <div class="final-cta__subheading">{{ section.settings.subheading }}</div>
+          {% endif %}
+        </div>
+
+        {% if section.settings.show_price %}
+          {% render 'price', product: final_product, variant: final_variant, show_compare: true, show_badge: true, class: 'final-cta__price' %}
+        {% endif %}
+
+        {% form 'product', final_product, class: 'tiktok-product-form final-cta__form', data-product-form: '', data-product-id: final_product.id %}
+          <input type="hidden" name="quantity" value="1" data-product-quantity-input>
+
+          {% if final_product.variants.size > 1 %}
+            <label class="tiktok-sr-only" for="FinalVariant-{{ section.id }}">Variant</label>
+            <select id="FinalVariant-{{ section.id }}" class="tiktok-select" name="id" data-product-variant-select>
+              {% for variant in final_product.variants %}
+                <option value="{{ variant.id }}"{% if variant.id == final_variant.id %} selected{% endif %}>
+                  {{ variant.title }} - {{ variant.price | money }}
+                </option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <input type="hidden" name="id" value="{{ final_variant.id }}" data-product-variant-id>
+          {% endif %}
+
+          <div class="final-cta__buttons">
+            {% render 'button', label: section.settings.primary_cta_label | default: 'Buy now', type: 'submit', style: 'primary', full_width: true %}
+            {% if section.settings.show_secondary_cta %}
+              {% render 'button', label: section.settings.secondary_cta_label | default: 'Add to cart', type: 'submit', style: 'secondary', full_width: true %}
+            {% endif %}
+          </div>
+        {% endform %}
+
+        {% if section.settings.show_trust_bullets %}
+          <div class="final-cta__trust">
+            {% for block in section.blocks %}
+              {% if block.type == 'trust_bullet' %}
+                {% render 'trust-bullet', icon: block.settings.icon, text: block.settings.text %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% javascript %}
+  (() => {
+    const section = document.getElementById('FinalCta-{{ section.id }}');
+
+    if (!section) {
+      return;
+    }
+
+    const productId = String(section.dataset.productId || '');
+    const form = section.querySelector('[data-product-form]');
+
+    if (!productId || !form) {
+      return;
+    }
+
+    const variantSelect = form.querySelector('[data-product-variant-select]');
+    const variantInput = form.querySelector('[data-product-variant-id]');
+    const quantityInput = form.querySelector('[data-product-quantity-input]');
+
+    const syncControls = (detail) => {
+      if (detail.variantId) {
+        if (variantSelect) {
+          variantSelect.value = String(detail.variantId);
+        }
+
+        if (variantInput) {
+          variantInput.value = String(detail.variantId);
+        }
+      }
+
+      if (detail.quantity && quantityInput) {
+        quantityInput.value = detail.quantity;
+      }
+
+      if (detail.variant) {
+        const submitButtons = form.querySelectorAll('button[type="submit"]');
+        submitButtons.forEach((button) => {
+          button.disabled = detail.variant.available === false;
+        });
+      }
+    };
+
+    if (variantSelect) {
+      variantSelect.addEventListener('change', () => {
+        if (!window.TiktokLanding || !window.TiktokLanding.findVariant || !window.TiktokLanding.syncProductState) {
+          return;
+        }
+
+        const variant = window.TiktokLanding.findVariant(productId, variantSelect.value);
+        window.TiktokLanding.syncProductState(productId, {
+          productId,
+          variantId: variantSelect.value,
+          quantity: 1,
+          variant,
+          source: section.id
+        });
+      });
+    }
+
+    window.addEventListener(`tiktok:product-sync:${productId}`, (event) => {
+      const detail = event.detail || {};
+
+      if (detail.source === section.id) {
+        return;
+      }
+
+      syncControls(detail);
+    });
+  })();
+{% endjavascript %}
+
+{% stylesheet %}
+  .final-cta__card {
+    padding: clamp(1.4rem, 4vw, 2.2rem);
+    background: linear-gradient(135deg, rgba(255, 247, 244, 0.95), #fff);
+  }
+
+  .final-cta__copy--center {
+    text-align: center;
+  }
+
+  .final-cta__heading {
+    margin: 0;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+  }
+
+  .final-cta__subheading {
+    margin-top: 0.65rem;
+    color: color-mix(in srgb, var(--color-foreground) 76%, white);
+    line-height: 1.65;
+  }
+
+  .final-cta__price {
+    margin-top: 1rem;
+  }
+
+  .final-cta__buttons {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .final-cta__trust {
+    display: grid;
+    gap: 0.7rem;
+    margin-top: 1rem;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Final CTA",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Ready to make cleaning easier?"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Repeat the value proposition with one final push and the same trust cues from above."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "Show price",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "primary_cta_label",
+      "label": "Primary CTA label",
+      "default": "Buy now"
+    },
+    {
+      "type": "text",
+      "id": "secondary_cta_label",
+      "label": "Secondary CTA label",
+      "default": "Add to cart"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_cta",
+      "label": "Show secondary CTA",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_bullets",
+      "label": "Show trust bullets",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "left"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_bullet",
+      "name": "Trust bullet",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "ship",
+              "label": "Shipping"
+            },
+            {
+              "value": "check",
+              "label": "Check"
+            }
+          ],
+          "default": "check"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Secure checkout"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Final CTA",
+      "blocks": [
+        {
+          "type": "trust_bullet"
+        },
+        {
+          "type": "trust_bullet"
+        },
+        {
+          "type": "trust_bullet"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

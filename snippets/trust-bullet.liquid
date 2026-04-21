@@ -1,0 +1,25 @@
+{% doc %}
+  Renders a short trust bullet with an icon.
+
+  @param {string} text - Trust text
+  @param {string} [icon] - Icon name
+{% enddoc %}
+
+<div class="tiktok-trust-bullet">
+  {% render 'icon', name: icon | default: 'check', size: 16 %}
+  <span>{{ text }}</span>
+</div>
+
+{% stylesheet %}
+  .tiktok-trust-bullet {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: color-mix(in srgb, var(--color-foreground) 84%, white);
+    font-size: 0.95rem;
+  }
+
+  .tiktok-trust-bullet .tiktok-icon {
+    color: var(--color-tiktok-accent);
+  }
+{% endstylesheet %}

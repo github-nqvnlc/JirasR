@@ -1,0 +1,65 @@
+{% doc %}
+  Renders an accessible accordion item using details/summary.
+
+  @param {string} title - Summary text
+  @param {string} content - Rich text content
+  @param {boolean} [open] - Whether the item starts opened
+{% enddoc %}
+
+<details class="tiktok-accordion-item tiktok-card" {% if open %}open{% endif %}>
+  <summary class="tiktok-accordion-item__summary">
+    <span>{{ title }}</span>
+    {% render 'icon', name: 'cross', class: 'tiktok-accordion-item__icon', size: 14 %}
+  </summary>
+  <div class="tiktok-accordion-item__content rte">
+    {{ content }}
+  </div>
+</details>
+
+{% stylesheet %}
+  .tiktok-accordion-item {
+    overflow: hidden;
+  }
+
+  .tiktok-accordion-item + .tiktok-accordion-item {
+    margin-top: 0.85rem;
+  }
+
+  .tiktok-accordion-item__summary {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    cursor: pointer;
+    padding: 1rem 1.1rem;
+    font-weight: 700;
+  }
+
+  .tiktok-accordion-item__summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .tiktok-accordion-item__icon {
+    transform: rotate(45deg);
+    transition: transform 160ms ease;
+  }
+
+  .tiktok-accordion-item[open] .tiktok-accordion-item__icon {
+    transform: rotate(0deg);
+  }
+
+  .tiktok-accordion-item__content {
+    padding: 0 1.1rem 1.1rem;
+    color: color-mix(in srgb, var(--color-foreground) 78%, white);
+    line-height: 1.7;
+  }
+
+  .tiktok-accordion-item__content > *:first-child {
+    margin-top: 0;
+  }
+
+  .tiktok-accordion-item__content > *:last-child {
+    margin-bottom: 0;
+  }
+{% endstylesheet %}

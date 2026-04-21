@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    {% render 'theme-head' %}
+    {{ content_for_header }}
+  </head>
+  <body class="template-{{ template.name }}{% if template.suffix %} template-{{ template.name }}-{{ template.suffix }}{% endif %} tiktok-landing-page">
+    {{ content_for_layout }}
+  </body>
+</html>

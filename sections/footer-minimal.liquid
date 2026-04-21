@@ -1,0 +1,114 @@
+<footer class="tiktok-section tiktok-section--compact footer-minimal">
+  <div class="tiktok-shell">
+    <div class="footer-minimal__grid">
+      <div>
+        <strong class="footer-minimal__brand">{{ shop.name }}</strong>
+        <p class="footer-minimal__copy">{{ section.settings.copyright_text | default: shop.name }}</p>
+      </div>
+
+      <div class="footer-minimal__links">
+        {% for block in section.blocks %}
+          {% if block.settings.url != blank %}
+            <a href="{{ block.settings.url }}">{{ block.settings.label }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</footer>
+
+{% stylesheet %}
+  .footer-minimal {
+    border-top: 1px solid color-mix(in srgb, var(--color-tiktok-card-border) 90%, transparent);
+  }
+
+  .footer-minimal__grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .footer-minimal__brand,
+  .footer-minimal__copy {
+    display: block;
+  }
+
+  .footer-minimal__copy {
+    margin-top: 0.45rem;
+    color: color-mix(in srgb, var(--color-foreground) 65%, white);
+  }
+
+  .footer-minimal__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+  }
+
+  .footer-minimal__links a {
+    text-decoration: none;
+    color: color-mix(in srgb, var(--color-foreground) 82%, white);
+  }
+
+  @media screen and (min-width: 750px) {
+    .footer-minimal__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-items: center;
+    }
+
+    .footer-minimal__links {
+      justify-content: flex-end;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Footer Minimal",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "copyright_text",
+      "label": "Copyright text",
+      "default": "(c) Brand name"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "link",
+      "name": "Link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Contact"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "URL"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 8,
+  "presets": [
+    {
+      "name": "Footer Minimal",
+      "blocks": [
+        {
+          "type": "link"
+        },
+        {
+          "type": "link"
+        },
+        {
+          "type": "link"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

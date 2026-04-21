@@ -1,0 +1,215 @@
+<section class="tiktok-section benefit-icons">
+  <div class="tiktok-shell">
+    {% render 'section-heading', heading: section.settings.heading, subheading: section.settings.subheading, alignment: section.settings.alignment %}
+
+    <div
+      class="benefit-icons__grid"
+      style="--benefits-mobile: {{ section.settings.columns_mobile }}; --benefits-desktop: {{ section.settings.columns_desktop }};"
+    >
+      {% for block in section.blocks %}
+        <article class="benefit-icons__card tiktok-card">
+          <span class="benefit-icons__icon">
+            {% render 'icon', name: block.settings.icon, size: 18 %}
+          </span>
+          <h3>{{ block.settings.title }}</h3>
+          {% if section.settings.show_descriptions %}
+            {% if block.settings.description != blank %}
+              <p>{{ block.settings.description }}</p>
+            {% endif %}
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .benefit-icons__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--benefits-mobile), minmax(0, 1fr));
+    gap: 0.9rem;
+  }
+
+  .benefit-icons__card {
+    padding: 1.1rem;
+    text-align: center;
+  }
+
+  .benefit-icons__icon {
+    width: 2.8rem;
+    height: 2.8rem;
+    margin: 0 auto 0.9rem;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 92, 56, 0.1);
+    color: var(--color-tiktok-accent);
+  }
+
+  .benefit-icons__card h3,
+  .benefit-icons__card p {
+    margin: 0;
+  }
+
+  .benefit-icons__card p {
+    margin-top: 0.45rem;
+    color: color-mix(in srgb, var(--color-foreground) 68%, white);
+    line-height: 1.55;
+  }
+
+  @media screen and (min-width: 990px) {
+    .benefit-icons__grid {
+      grid-template-columns: repeat(var(--benefits-desktop), minmax(0, 1fr));
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Benefit Icons",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Why people love it"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Fast, easy-to-scan reasons that reinforce the product promise."
+    },
+    {
+      "type": "select",
+      "id": "columns_mobile",
+      "label": "Columns on mobile",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "2"
+    },
+    {
+      "type": "select",
+      "id": "columns_desktop",
+      "label": "Columns on desktop",
+      "options": [
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "6",
+          "label": "6"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_descriptions",
+      "label": "Show descriptions",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "alignment",
+      "label": "Heading alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Benefit",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "spark",
+              "label": "Spark"
+            },
+            {
+              "value": "brush",
+              "label": "Brush"
+            },
+            {
+              "value": "battery",
+              "label": "Battery"
+            },
+            {
+              "value": "drop",
+              "label": "Waterproof"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            }
+          ],
+          "default": "spark"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Fast clean"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description",
+          "default": "Designed to make the result obvious in just a few seconds."
+        }
+      ]
+    }
+  ],
+  "max_blocks": 6,
+  "presets": [
+    {
+      "name": "Benefit Icons",
+      "blocks": [
+        {
+          "type": "benefit"
+        },
+        {
+          "type": "benefit"
+        },
+        {
+          "type": "benefit"
+        },
+        {
+          "type": "benefit"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

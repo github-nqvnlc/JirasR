@@ -79,5 +79,50 @@
         "default": 4
       }
     ]
+  },
+  {
+    "name": "t:tiktok_landing.theme.name",
+    "settings": [
+      {
+        "type": "color",
+        "id": "tiktok_accent_color",
+        "default": "#ff5c38",
+        "label": "t:tiktok_landing.labels.accent_color"
+      },
+      {
+        "type": "color",
+        "id": "tiktok_accent_foreground",
+        "default": "#ffffff",
+        "label": "t:tiktok_landing.labels.accent_foreground"
+      },
+      {
+        "type": "color",
+        "id": "tiktok_surface_background",
+        "default": "#fff7f4",
+        "label": "t:tiktok_landing.labels.surface_background"
+      },
+      {
+        "type": "color",
+        "id": "tiktok_card_background",
+        "default": "#ffffff",
+        "label": "t:tiktok_landing.labels.card_background"
+      },
+      {
+        "type": "color",
+        "id": "tiktok_card_border",
+        "default": "#f0d7cf",
+        "label": "t:tiktok_landing.labels.card_border"
+      },
+      {
+        "type": "range",
+        "id": "tiktok_card_radius",
+        "min": 12,
+        "max": 36,
+        "step": 2,
+        "unit": "px",
+        "label": "t:tiktok_landing.labels.card_radius",
+        "default": 24
+      }
+    ]
   }
 ]

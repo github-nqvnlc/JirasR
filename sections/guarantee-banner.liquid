@@ -1,0 +1,103 @@
+<section class="tiktok-section tiktok-section--compact guarantee-banner">
+  <div class="tiktok-shell">
+    <article class="guarantee-banner__card tiktok-card">
+      {% if section.settings.show_icon %}
+        <span class="guarantee-banner__icon">
+          {% render 'icon', name: section.settings.icon, size: 20 %}
+        </span>
+      {% endif %}
+
+      <div>
+        <h2>{{ section.settings.heading }}</h2>
+        <p>{{ section.settings.content }}</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+{% stylesheet %}
+  .guarantee-banner__card {
+    padding: 1.2rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    background: linear-gradient(135deg, rgba(255, 92, 56, 0.1), rgba(255, 247, 244, 0.92));
+  }
+
+  .guarantee-banner__icon {
+    width: 3rem;
+    height: 3rem;
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: #fff;
+    color: var(--color-tiktok-accent);
+  }
+
+  .guarantee-banner__card h2,
+  .guarantee-banner__card p {
+    margin: 0;
+  }
+
+  .guarantee-banner__card p {
+    margin-top: 0.45rem;
+    color: color-mix(in srgb, var(--color-foreground) 76%, white);
+    line-height: 1.65;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Guarantee Banner",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "30-Day Money-Back Guarantee"
+    },
+    {
+      "type": "textarea",
+      "id": "content",
+      "label": "Content",
+      "default": "Try it risk-free. If you do not love it, contact us and we will help make it right."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_icon",
+      "label": "Show icon",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "options": [
+        {
+          "value": "shield",
+          "label": "Shield"
+        },
+        {
+          "value": "verified",
+          "label": "Verified"
+        },
+        {
+          "value": "gift",
+          "label": "Gift"
+        }
+      ],
+      "default": "shield"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Guarantee Banner"
+    }
+  ]
+}
+{% endschema %}
