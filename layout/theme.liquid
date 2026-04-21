@@ -18,10 +18,7 @@
     {% endunless %}
 
     {% # Load compiled Tailwind CSS %}
-    {% comment %} {{ 'tailwind.css' | asset_url | stylesheet_tag }} {% endcomment %}
-    {% assign tailwind_css = 'assets/tailwind.css' | file_url %}
-
-    <link rel="stylesheet" href="{{ tailwind_css }}">
+    {{ 'tailwind.css' | asset_url | stylesheet_tag }}
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
