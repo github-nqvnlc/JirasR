@@ -19,7 +19,7 @@
 
     {% # Load compiled Tailwind CSS %}
     {% comment %} {{ 'tailwind.css' | asset_url | stylesheet_tag }} {% endcomment %}
-    {% assign tailwind_css = 'assets/tailwind.css' | file_url %}
+    {% assign tailwind_css = 'tailwind.css' | asset_url %}
 
     <link rel="stylesheet" href="{{ tailwind_css }}" rel="stylesheet" type="text/css" media="all">
 
